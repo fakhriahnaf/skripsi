@@ -52,10 +52,6 @@
     <script src="{{ asset('js/sweetalert2.js') }}"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"
         integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-        
-        <script>
-            M.AutoInit()
-        </script>
     <script>
 
       let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
@@ -63,27 +59,9 @@
       scanner.addListener('scan', function (content) {
   
         console.log(content);
-       
-        $.ajaxSetup({
-              headers: {
-                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-              }
-          });
-  
-          $.ajax({
-              type: "POST",
-              url : "{{url('/qr-absent')}}",
-              // url : "{{url('/check')}}/"+code,
-              data: {content: content},
-                  success: function(data) {
-                    if (content != null){
-                      $(location).attr('href', "{{url('/admin/QRScanner/absent')}}/"+content);
-  
-                    }else{
-                      console.log('error');
-                    }
-                  }
-              })
+        const targetUrl = '{{env("APP_URL") . "/qr/"}}' + content;
+        console.log(`target url : ${targetUrl}`);
+        window.location.replace(targetUrl);
       });
   
       Instascan.Camera.getCameras().then(function (cameras) {
@@ -107,7 +85,7 @@
     </script>
 
 
-    @if (Session::has('status') && Session::get('status') == 'invalid')
+    {{-- @if (Session::has('status') && Session::get('status') == 'invalid')
     <script>
         Swal.fire({
             icon: 'warning',
@@ -125,7 +103,7 @@
         html: '{{ Session::get('id') }} <br> {{ Session::get('name') }}'
         })
     </script>
-    @endif
+    @endif --}}
   </body>
 </html>
 

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Qr;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Http;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Storage;
 
 use Barryvdh\DomPDF\Facade as PDF;
@@ -31,39 +32,7 @@ class QrController extends Controller
     public function create()
     {   
         $barang_id = Http::get('http://ipromise.dev.ipb.ac.id/api/apibarang');
-        // $client = new Client(); //GuzzleHttp\Client
-        // $url = "http://ipromise.dev.ipb.ac.id/api/apibarang";
-
-
-        // $barang_id = $client->request('GET', $url, [
-        //     'verify'  => false,
-        // ]);
-
-        // $responseBody = json_decode($barang_id->getBody());
         
-        // if(is_array($responseBody)) {
-            
-        //     foreach ($responseBody as $index => $value) {
-        //         $qr = Qr::where('KodeBarang', $value->KodeBarang)->first();
-        //         if($qr) {
-        //             $this->info("KodeBarang " . $value->KodeBarang . " sudah memiliki qr dengan id " . $qr->id);
-        //         } else {
-        //             $qr = Qr::whereNull("KodeBarang")->first();
-        //             // $array = json_decode(json_encode($qr), true);
-        //             if($qr == null) continue;
-                    
-        //             $qr->fill([
-        //                 'KodeBarang' => $qr->KodeBarang,
-        //                 'NamaBarang' => $qr->NamaBarang,
-        //                 'JenisBarang' => $qr->JenisBarang,
-        //                 'TanggalPembelian' => $qr->TanggalPembelian,
-        //                 'SatuanUnit' => $qr->SatuanUnit,
-        //             ])->save();
-
-        //             $this->info("KodeBarang " . $value->KodeBarang . " dibuat baru dengan qr id " . $qr->id);
-        //         }
-        //     }
-        // }
         return view('qrcode.create')->with([
             'barang_id' => json_decode($barang_id)
         ]);;
@@ -86,7 +55,7 @@ class QrController extends Controller
             'SatuanBarang' => $request->input('satuan_barang'),
         ]);
 
-        return redirect()->back();
+        return redirect()->route('qr.index');
     }
 
     /**
@@ -126,13 +95,14 @@ class QrController extends Controller
 
     public function print($id)
     {
-        $items = Qr::find([$id]);
+        $qrcode = base64_encode(QrCode::format('svg')->size(50)->generate($id));
+        $qr = Qr::find([$id]);
         $pdf = PDF::loadView('qrcode.print', [
-            'item' => $items[0],
-          ])->setPaper('a6', 'portrait');
-        $pathfile = 'public' . DIRECTORY_SEPARATOR . 'pdf' . DIRECTORY_SEPARATOR;
-        Storage::put($pathfile . $items[0]->id . '.pdf', $pdf->output());
-        return response()->download(storage_path('app' . DIRECTORY_SEPARATOR . $pathfile), $items[0]->id . '.pdf')->deleteFileAfterSend();
+            'item' => $qr[0],
+            'qrcode' => $qrcode
+          ])->setPaper('a8', 'landscape');
+        
+        return $pdf->stream();
     }
 
     /**

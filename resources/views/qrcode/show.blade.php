@@ -48,27 +48,19 @@
                     @endforeach
                     <div>
                         QR Code
-                        <div id="qrcode"></div>
+                        <div id="qrcode">
+                            {!! QrCode::size(200)->generate($id) !!}
+                        </div>
                     </div>
                     <p></p>
                     <p></p>
                     <div class="form-actions form-group">
-                        <button type="submit" class="btn btn-secondary btn-sm">Print Qr Code</button>
+                        <a href="{{ route('qr.print', $id) }}" class="btn btn-secondary btn-sm">Print Qr Code</a>
                     </div>
-
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-@endsection
-
-@section('script')
-    <script src="/qrcode.min.js"></script>
-    <script type="text/javascript">
-        new QRCode(document.getElementById("qrcode"), "{{$id}}");
-
-        console.log(@json($items))
-    </script>
 @endsection

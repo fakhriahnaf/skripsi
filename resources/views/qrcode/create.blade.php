@@ -23,31 +23,31 @@
             <div class="row form-group">
                 <div class="col col-md-3"><label class=" form-control-label">Kode Barang</label></div>
                 <div class="col-12 col-md-9">
-                    <input readonly name="kode_barang" class="form-control-static"  id="info-kode-barang" value="Belum dipilih"> 
+                    <input readonly name="kode_barang" class="form-control"  id="info-kode-barang" value="Belum dipilih"> 
                 </div>
             </div>
             <div class="row form-group">
                 <div class="col col-md-3"><label class=" form-control-label">Nama Barang</label></div>
                 <div class="col-12 col-md-9">
-                    <input readonly name="nama_barang" class="form-control-static"  id="info-nama-barang" value="Belum dipilih"> 
+                    <input readonly name="nama_barang" class="form-control"  id="info-nama-barang" value="Belum dipilih"> 
                 </div>
             </div>
             <div class="row form-group">
                 <div class="col col-md-3"><label class=" form-control-label">Jenis Barang</label></div>
                 <div class="col-12 col-md-9">
-                    <input readonly name="jenis_barang" class="form-control-static" id="info-jenis-barang" value="Belum dipilih"> 
+                    <input readonly name="jenis_barang" class="form-control" id="info-jenis-barang" value="Belum dipilih"> 
                 </div>
             </div>
             <div class="row form-group">
                 <div class="col col-md-3"><label class=" form-control-label">Tanggal Pembelian</label></div>
                 <div class="col-12 col-md-9">
-                    <input readonly name="tanggal_pembelian" class="fKodeBarangorm-control-static" id="info-tahun-pembelian-barang" value="Belum dipilih"> 
+                    <input readonly name="tanggal_pembelian" class="form-control" id="info-tahun-pembelian-barang" value="Belum dipilih"> 
                 </div>
             </div>
             <div class="row form-group">
                 <div class="col col-md-3"><label class=" form-control-label">Satuan Unit</label></div>
                 <div class="col-12 col-md-9">
-                    <input readonly name="satuan_barang" class="fKodeBarangorm-control-static" id="info-satuan-barang" value="Belum dipilih"> 
+                    <input readonly name="satuan_barang" class="form-control" id="info-satuan-barang" value="Belum dipilih"> 
                 </div>
             </div>
 
